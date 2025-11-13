@@ -31,10 +31,15 @@ void step_wavefield_2d_gpu(
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     int j = blockIdx.y * blockDim.y + threadIdx.y;
 
-    // TODO [Lab Part A1]:
     //  - Skip boundaries
+    if (i <= 0 || i >= Nx - 1 || j <= 0 || j >= Nz - 1) {
+        return;
+    }
+    
+    // TODO [Lab Part A1]:
     //  - Compute flattened indices (idx, neighbors)
     //  - Load neighbors, compute Laplacian
+    //  - Update wavefield value
     //  - Write p_next[idx]
 
     // Stub so the template compiles (does nothing)
@@ -88,7 +93,12 @@ void propagate_gpu_baseline(
 
         // TODO [Lab Part A2]:
         //  - Launch step_wavefield_2d_gpu<<<gridDim, blockDim>>>(...)
+
         //  - Rotate pointers (d_p0, d_p1, d_p2)
+        float* temp = d_p0;
+        d_p0 = d_p1;
+        d_p1 = d_p2;
+        d_p2 = temp;
 
         (void)d_src_n; // silence unused warning in template
     }
