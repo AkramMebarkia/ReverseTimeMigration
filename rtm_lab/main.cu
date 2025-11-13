@@ -27,8 +27,11 @@ void step_wavefield_2d_gpu(
     int Nx, int Nz,
     float dt, float h)
 {
-    // TODO [Lab Part A1]:
     //  - Compute i, j from blockIdx/threadIdx
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    int j = blockIdx.y * blockDim.y + threadIdx.y;
+
+    // TODO [Lab Part A1]:
     //  - Skip boundaries
     //  - Compute flattened indices (idx, neighbors)
     //  - Load neighbors, compute Laplacian
